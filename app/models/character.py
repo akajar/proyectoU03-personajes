@@ -23,7 +23,7 @@ class Character:
         self.location = location
         self.image = image
         self.first_episode = first_episode
-        self.created = datetime.strptime(str(created))
+        self.created = datetime.strptime(str(created),"%Y-%m-%d")
 
     def to_json(self):
         return {
