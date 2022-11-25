@@ -1,0 +1,8 @@
+#Binaries
+.env
+
+#Virtual environment
+/env
+
+#pycache
+/__pycache__
