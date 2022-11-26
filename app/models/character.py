@@ -11,8 +11,7 @@ class Character:
             origin,
             location,
             image,
-            first_episode,
-            created):
+            first_episode):
         self.id = id
         self.name = name
         self.status = status
@@ -23,8 +22,19 @@ class Character:
         self.location = location
         self.image = image
         self.first_episode = first_episode
-        self.created = datetime.strptime(str(created),"%Y-%m-%d")
 
+    def __init__(self,**kwargs):
+        self.id = kwargs['id']
+        self.name = kwargs['name']
+        self.status = kwargs['status']
+        self.species = kwargs['species']
+        self.type = kwargs['type']
+        self.gender = kwargs['gender']
+        self.origin = kwargs['origin']
+        self.location = kwargs['location']
+        self.image = kwargs['image']
+        self.first_episode = kwargs['first_episode']
+        
     def to_json(self):
         return {
             'id': self.id,
@@ -36,6 +46,5 @@ class Character:
             'origin': self.origin,
             'location': self.location,
             'image': self.image,
-            'first_episode': self.first_episode,
-            'created': self.created
+            'first_episode': self.first_episode
         }
