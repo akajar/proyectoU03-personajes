@@ -60,3 +60,7 @@ def insert_character(data):
     )
     
     collection.insert_one(character.to_json())
+
+@character_route.route('/profile/<int:id>')
+def view_character_profile(id):
+    return f"Profile #{id}"
