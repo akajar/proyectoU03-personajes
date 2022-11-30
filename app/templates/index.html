@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
   {% for message in get_flashed_messages(category_filter=['error'])%}
-    <button><a href="{{url_for('character_route.charge_data')}}">Cargar Datos</a></button>
+    <button><a href="{{url_for('character_route.load_data')}}">Cargar Datos</a></button>
   {% endfor %}
   <h1>Personajes de Rick y Morty</h1>
 
