@@ -24,7 +24,7 @@
                 {% endif %}
                 <p class="card-text">{{character.get('species')}}</p>
                 <p class="card-text"><small>From: </small>{{character.get('origin')}}</p>
-                <a href="{{url_for()}}" class="btn btn-primary">View Profile</a>
+                <a href="{{url_for('character_route.view_character_profile',id=character['id'])}}" class="btn btn-primary">View Profile</a>
               </div>
             </div>
             <br>
