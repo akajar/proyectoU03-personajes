@@ -22,18 +22,6 @@ class Character:
         self.location = location
         self.image = image
         self.first_episode = first_episode
-
-    def __init__(self,**kwargs):
-        self.id = kwargs['id']
-        self.name = kwargs['name']
-        self.status = kwargs['status']
-        self.species = kwargs['species']
-        self.type = kwargs['type']
-        self.gender = kwargs['gender']
-        self.origin = kwargs['origin']
-        self.location = kwargs['location']
-        self.image = kwargs['image']
-        self.first_episode = kwargs['first_episode']
         
     def to_json(self):
         return {
