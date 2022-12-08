@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="page-header">
+    <h1>{{episode.episode}}: {{episode.name}}</h1>
+  </div>
+  <div class="row">
+    <ul>
+        <li>Air Date: {{episode.air_date}}</li>
+        <li>Characters:</li>
+        <ul>
+        {% for c in episode.characters %}
+            <li>{{c.name}}</li>    
+        {% endfor %}
+        </ul>
+    </ul>
+    
+  </div>
+{% endblock %}
