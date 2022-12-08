@@ -1,6 +1,6 @@
 from flask import Blueprint, abort, render_template,flash, request
 from app.models.character import Character
-from app.database import collection
+from app.database import db
 
 from requests import get
 
@@ -8,7 +8,7 @@ character_route = Blueprint('character_route',__name__)
 
 @character_route.route('/')
 def index():
-    if collection.count_documents({}) == 0:
+    if db['characters'].count_documents({}) == 0:
         flash("¡Falta cargar los datos! \U0001F62C","error")
         return render_template('index.html')
     
@@ -19,22 +19,22 @@ def index():
 def get_page(page, items_per_page = 20):
     last_page = get_last_page(items_per_page)
     if page == 1:
-        cursor = collection.find().limit(items_per_page)
+        cursor = db['characters'].find().limit(items_per_page)
         return list(cursor),last_page
     
     last_id = (page-1)*items_per_page
-    cursor = collection.find({'id':{'$gt': last_id}}).limit(items_per_page)
+    cursor = db['characters'].find({'id':{'$gt': last_id}}).limit(items_per_page)
     return list(cursor), last_page
 
 def get_last_page(page_size):
-    documents = collection.count_documents({})
+    documents = db['characters'].count_documents({})
     if documents % page_size != 0:
         return documents//page_size + 1
     return documents // page_size
 
 @character_route.route('/success')
 def load_data():
-    if collection.count_documents({}) != 0:
+    if db['characters'].count_documents({}) != 0:
         return index()
     get_character_from_api()
     flash('DATOS CARGADOS CON EXITO :D','success')
@@ -76,11 +76,11 @@ def insert_character(data):
         first_episode = get_json_api(data['episode'][0])['name']
     )
     
-    collection.insert_one(character.to_json())
+    db['characters'].insert_one(character.to_json())
 
 @character_route.route('/profile/<int:id>')
-def view_character_profile(id, count = collection.count_documents({}), methods = ['GET']):
-    if id <= collection.count_documents({}):
-        data = collection.find_one({'id':id})
+def view_character_profile(id, count = db['characters'].count_documents({}), methods = ['GET']):
+    if id <= count:
+        data = db['characters'].find_one({'id':id})
         return render_template('profile.html',character = data, count=count)
     return abort(404)
