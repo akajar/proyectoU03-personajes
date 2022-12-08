@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="jumbotron">
+    <div class="row">
+      <div class="col-sm-4 col-md-3">
+        <img src="{{character.image}}" class="img-thumbnail img-responsive center-block" alt="" width="200 rem">
+      </div>
+      <div class="col-sm-8 col-md-9">
+        <div class="row hidden-xs invisible"><h2>aaaaa</h2></div>
+        <div class="row hidden-xs invisible"><h2>aaaaa</h2></div>
+        <div class="row text-center"><h2>{{character.name}}</h2></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <ul>
+        <li>
+          <label>Status:</label> {{character.status}}
+        </li>
+        <li>
+          <label>Species:</label> {{character.species}}
+        {% if character.type != "" %}
+          | <label>Type:</label> {{character.type}}
+        {% endif %}
+        </li>
+        <li>
+          <label>Gender:</label> {{character.gender}}
+        </li>
+        <li>
+          <label>Origin:</label> {{character.origin}}
+        </li>
+        <li>
+          <label>Location:</label> {{character.location}}
+        </li>
+        <li>
+          <label>First Episode:</label> {{character.first_episode}}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row text-center">
+    <nav>
+      <ul class="pager">
+        <li class="{% if character.id == 1 %} disabled {% endif %}">
+          <a href="{{url_for('character_route.view_character_profile',id=character.id-1)}}">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+        </li>
+        <li>
+          <a href="{{url_for('character_route.index')}}">Home</a>
+        </li>
+        <li>
+          <a href="{{url_for('character_route.view_character_profile',id=character.id+1)}}">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+
+{% endblock %}

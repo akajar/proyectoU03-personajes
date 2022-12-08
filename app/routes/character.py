@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,flash, request
+from flask import Blueprint, abort, render_template,flash, request
 from app.models.character import Character
 from app.database import collection
 
@@ -79,5 +79,8 @@ def insert_character(data):
     collection.insert_one(character.to_json())
 
 @character_route.route('/profile/<int:id>')
-def view_character_profile(id):
-    return f"Profile #{id}"
+def view_character_profile(id, methods = ['GET']):
+    if id <= collection.count_documents({}):
+        data = collection.find_one({'id':id})
+        return render_template('profile.html',character = data)
+    return abort(404)
