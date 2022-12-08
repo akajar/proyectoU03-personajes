@@ -79,8 +79,8 @@ def insert_character(data):
     collection.insert_one(character.to_json())
 
 @character_route.route('/profile/<int:id>')
-def view_character_profile(id, methods = ['GET']):
+def view_character_profile(id, count = collection.count_documents({}), methods = ['GET']):
     if id <= collection.count_documents({}):
         data = collection.find_one({'id':id})
-        return render_template('profile.html',character = data)
+        return render_template('profile.html',character = data, count=count)
     return abort(404)
