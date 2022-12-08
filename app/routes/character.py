@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,flash
+from flask import Blueprint, render_template,flash, request
 from app.models.character import Character
 from app.database import collection
 
@@ -12,8 +12,25 @@ def index():
         flash("¡Falta cargar los datos! \U0001F62C","error")
         return render_template('index.html')
     
-    characters = collection.find()
-    return render_template('index2.html', characters = characters)
+    page = request.args.get('page',1,type=int)
+    characters,last_page = get_page(page)
+    return render_template('index2.html', characters = characters, page = page, last_page = last_page)
+
+def get_page(page, items_per_page = 20):
+    last_page = get_last_page(items_per_page)
+    if page == 1:
+        cursor = collection.find().limit(items_per_page)
+        return list(cursor),last_page
+    
+    last_id = (page-1)*items_per_page
+    cursor = collection.find({'id':{'$gt': last_id}}).limit(items_per_page)
+    return list(cursor), last_page
+
+def get_last_page(page_size):
+    documents = collection.count_documents({})
+    if documents % page_size != 0:
+        return documents//page_size + 1
+    return documents // page_size
 
 @character_route.route('/success')
 def load_data():
