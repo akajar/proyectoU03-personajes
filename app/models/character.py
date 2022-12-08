@@ -1,4 +1,3 @@
-from datetime import datetime
 class Character:
     def __init__(
             self,
@@ -11,7 +10,7 @@ class Character:
             origin,
             location,
             image,
-            first_episode):
+            episodes):
         self.id = id
         self.name = name
         self.status = status
@@ -21,7 +20,7 @@ class Character:
         self.origin = origin
         self.location = location
         self.image = image
-        self.first_episode = first_episode
+        self.episodes = episodes
         
     def to_json(self):
         return {
@@ -34,5 +33,5 @@ class Character:
             'origin': self.origin,
             'location': self.location,
             'image': self.image,
-            'first_episode': self.first_episode
+            'episodes': self.episodes
         }
