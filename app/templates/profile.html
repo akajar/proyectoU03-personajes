@@ -44,16 +44,26 @@
   <div class="row text-center">
     <nav>
       <ul class="pager">
-        <li class="{% if character.id == 1 %} disabled {% endif %}">
+        {% if character.id == 1 %}
+        <li class="disabled">
+          <a href="">
+        {% else %}
+        <li>
           <a href="{{url_for('character_route.view_character_profile',id=character.id-1)}}">
+        {% endif %}
             <span class="glyphicon glyphicon-chevron-left"></span>
           </a>
         </li>
         <li>
           <a href="{{url_for('character_route.index')}}">Home</a>
         </li>
+        {% if character.id == count %}
+        <li class="disabled">
+          <a href="">
+        {% else %}
         <li>
           <a href="{{url_for('character_route.view_character_profile',id=character.id+1)}}">
+        {% endif %}
             <span class="glyphicon glyphicon-chevron-right"></span>
           </a>
         </li>
