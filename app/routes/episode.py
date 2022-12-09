@@ -7,14 +7,15 @@ from requests import get
 episode_route = Blueprint('episode_route',__name__)
 
 @episode_route.route('/episode/<int:id>')
-def episode_details(id, count = db['episodes'].count_documents({})):
+def episode_details(id):
+    count = db['episodes'].count_documents({})
     if count == 0:
         get_episodes()
-        return ""
+        count = db['episodes'].count_documents({})
     
     if id <= count:
         data = db['episodes'].find_one({'id':id})
-        return render_template('episode.html', episode = data, count=count)
+        return render_template('episode.html', episode = data)
     return abort(404)
 
 def get_episodes():
@@ -45,9 +46,8 @@ def insert_episode(data):
         name = data['name'],
         air_date = data['air_date'],
         episode = data['episode'],
-        characters = [x[42:] for x in data['characters']]
+        characters = list(import_characters([int(x[42:]) for x in data['characters']]))
     )
-    print(episode.to_json())
     db['episodes'].insert_one(episode.to_json())
     
 def import_characters(id_list):
