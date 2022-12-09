@@ -1,18 +1,28 @@
-{% extends 'base.html' %}
-{% block content %}
-  <div class="page-header">
-    <h1>{{episode.episode}}: {{episode.name}}</h1>
-  </div>
-  <div class="row">
-    <ul>
-        <li>Air Date: {{episode.air_date}}</li>
-        <li>Characters:</li>
-        <ul>
-        {% for c in episode.characters %}
-            <li>{{c.name}}</li>    
-        {% endfor %}
-        </ul>
-    </ul>
-    
-  </div>
+{% extends 'base.html' %} {% block content %}
+<a href="{{url_for('character_route.index')}}" class="btn btn-info" role="button">Home</a>
+<div class="page-header">
+  <h1>{{episode.episode}}: {{episode.name}}</h1>
+</div>
+<div class="row">
+  <ul>
+    <li>Air Date: {{episode.air_date}}</li>
+    <li>Characters:</li><br>
+    {% for c in episode.characters %}
+    <div class="col-xs-6 col-sm-6 col-md-4">
+      <div class="row thumbnail">
+        <div class="col-sm-6">
+          <a href="{{url_for('character_route.view_character_profile',id=c.id)}}">
+            <img src="{{c.image}}" alt="" width="100%">
+          </a>
+        </div>
+        <div class="col-sm-6">
+          <h4>{{c.name}} <small>{{c.species}}</small></h4>
+          <p>{{c.location}}</p>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}
