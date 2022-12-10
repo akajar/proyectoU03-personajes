@@ -36,7 +36,12 @@
           <label>Location:</label> {{character.location}}
         </li>
         <li>
-          <label>First Episode:</label> {{character.first_episode}}
+          <label>Episodes:</label>
+          <ul>
+            {% for ep in character.episodes %}
+            <li><a href="{{url_for('episode_route.episode_details',id=ep.id)}}">{{ep.episode}}: {{ep.name}}</a></li>
+            {% endfor %}
+          </ul>
         </li>
       </ul>
     </div>
