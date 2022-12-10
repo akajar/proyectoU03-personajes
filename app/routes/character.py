@@ -73,14 +73,25 @@ def insert_character(data):
         origin = data['origin']['name'],
         location = data['location']['name'],
         image = data['image'],
-        first_episode = get_json_api(data['episode'][0])['name']
+        episodes = list(get_episodes(data['episode']))
     )
     
     db['characters'].insert_one(character.to_json())
 
 @character_route.route('/profile/<int:id>')
-def view_character_profile(id, count = db['characters'].count_documents({}), methods = ['GET']):
+def view_character_profile(id, methods = ['GET']):
+    count = db['characters'].count_documents({})
     if id <= count:
         data = db['characters'].find_one({'id':id})
         return render_template('profile.html',character = data, count=count)
     return abort(404)
+
+def get_episodes(episodes):
+    for x in episodes:
+        ep = get_json_api(x)
+        data = {
+            'id': int(ep['id']),
+            'episode': ep['episode'],
+            'name': ep['name']
+        }
+        yield data
