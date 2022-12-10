@@ -51,7 +51,7 @@
             <li class="{% if x == page %} active {% endif %}"><a href="/?page={{x}}">{{x}}</a></li>
           {% endfor %}
         {% else %}
-          {% if page < 5 %}
+          {% if page < 4 %}
           <li class="{% if page == 2 %} active {% endif %}"><a href="/?page=2">2</a></li>
           <li class="{% if page == 3 %} active {% endif %}"><a href="/?page=3">3</a></li>
           <li class="disabled"><a href="">...</a></li>
