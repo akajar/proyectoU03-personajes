@@ -46,11 +46,18 @@ def insert_episode(data):
         name = data['name'],
         air_date = data['air_date'],
         episode = data['episode'],
-        characters = list(import_characters([int(x[42:]) for x in data['characters']]))
+        characters = list(get_characters(data['characters']))
     )
     db['episodes'].insert_one(episode.to_json())
-    
-def import_characters(id_list):
-    for id in id_list:
-        character = db['characters'].find_one({'id':id})
-        yield character
+
+def get_characters(characters):
+    for x in characters:
+        character = get_json_api(x)
+        data = {
+            'id': character['id'],
+            'name': character['name'],
+            'species': character['species'],
+            'location': character['location']['name'],
+            'image': character['image']
+        }
+        yield data
